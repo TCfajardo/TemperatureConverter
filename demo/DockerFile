@@ -1,0 +1,27 @@
+# Utilizar una imagen base de Ubuntu
+FROM ubuntu:20.04
+
+# Establecer el directorio de trabajo
+WORKDIR /app
+
+# Instalar las dependencias necesarias
+RUN apt-get update && \
+    apt-get install -y openjdk-17-jdk && \
+    apt-get install -y curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Descargar e instalar Maven
+RUN curl -sSL https://mirrors.sonic.net/apache/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz -o apache-maven.tar.gz && \
+    tar -xzf apache-maven.tar.gz && \
+    mv apache-maven-3.9.6 /usr/local/maven && \
+    ln -s /usr/local/maven/bin/mvn /usr/local/bin/mvn
+
+# Copiar el archivo .jar de tu aplicación
+COPY target/demo-0.0.1-SNAPSHOT.jar /app/demo-0.0.1-SNAPSHOT.jar
+
+# Exponer el puerto en el que se ejecutará la aplicación
+EXPOSE 8080
+
+# Ejecutar la aplicación
+CMD ["java", "-jar", "/app/demo-0.0.1-SNAPSHOT.jar"]
