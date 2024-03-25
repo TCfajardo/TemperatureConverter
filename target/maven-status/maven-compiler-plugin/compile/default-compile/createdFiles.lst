@@ -1,0 +1,3 @@
+com\TemperatureConverter\demo\controller\DemoController.class
+com\TemperatureConverter\demo\DemoApplication.class
+com\TemperatureConverter\demo\config\SwaggerConfig.class
